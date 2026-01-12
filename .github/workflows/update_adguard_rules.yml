@@ -26,8 +26,8 @@ jobs:
         domains=$(cat domain_list.txt | jq -R . | jq -s .)
         json_content="{\"version\": 3, \"rules\": [{\"domain_suffix\": $domains}]}"
 
-        # 输出 JSON 文件
-        echo "$json_content" > domain_list.json
+        # 使用 jq 格式化 JSON 输出
+        echo "$json_content" | jq . > domain_list.json
 
     - name: Commit and push changes
       run: |
