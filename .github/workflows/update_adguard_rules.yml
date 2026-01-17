@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Download AdGuard filter list
         run: |
@@ -34,10 +34,13 @@ jobs:
             ]
           }' > domain_list.json
 
-      - name: Commit and push changes (if any)
+      - name: Commit and push changes
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+
+          # 关键修复点：删除中间文件，避免 untracked 导致 commit 失败
+          rm -f filter.txt
 
           git add domain_list.txt domain_list.json
 
